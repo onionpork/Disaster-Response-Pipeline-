@@ -3,12 +3,27 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    
+    INPUTS:
+        messages_filepath - the filepath where the messages.csv is located
+        categories_filepath - the filepath where the categories.csv is located
+    RETURNS:
+        df - the dataframe mergeing both the message and categories 
+                csv files
+    """
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(messages, categories, left_on='id', right_on='id')
     return df
 
 def clean_data(df):
+    """
+    INPUTS:
+        df - the disaster message dataframe
+    RETURNS:
+        df - the cleaned disaster message dataframe
+    """
     categories = df.categories.str.split(";", expand=True)
     row = categories.iloc[0]
     category_colnames = list(row.str.split('-').apply(lambda x: x[0]))
@@ -19,13 +34,22 @@ def clean_data(df):
         categories[column] =   categories[column].astype('int64')
         
     df = pd.concat([df.drop('categories', axis=1), categories], axis =1)
-    df = df.drop_duplicates(subset = 'id')
+    df = df.drop_duplicates()
     return df
 
 def save_data(df, database_filename):
+    """
+    Save disaster message df into a SQLite database.
+    
+    INPUTS:
+        df - the disaster message df
+        database_filename - the filepath to store the disaster message SQLite database
+    """
     engine = create_engine('sqlite:///'+database_filename)
-    df.to_sql('disaster_cat', engine, index=False)
-
+    conn = engine.connect()
+    df.to_sql('disaster_cat', engine, index=False, if_exists = 'replace')
+    conn.close()
+    engine.dispose()
 
 def main():
     if len(sys.argv) == 4:

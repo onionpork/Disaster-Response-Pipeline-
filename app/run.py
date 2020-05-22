@@ -11,6 +11,8 @@ from plotly.graph_objs import Bar
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
+import sys
+sys.path.append('..')
 
 app = Flask(__name__)
 
@@ -43,6 +45,10 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    cat_counts_sorted =  df.iloc[:,4:].sum().sort_values(ascending=False)
+    cat_names = list(cat_counts_sorted.index)
+    cat_counts = list(cat_counts_sorted)
+    
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -64,6 +70,7 @@ def index():
                 }
             }
         }
+        
     ]
     
     # encode plotly graphs in JSON
