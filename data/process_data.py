@@ -35,6 +35,7 @@ def clean_data(df):
         
     df = pd.concat([df.drop('categories', axis=1), categories], axis =1)
     df = df.drop_duplicates()
+    assert len(df[df.duplicated()]) == 0
     return df
 
 def save_data(df, database_filename):
