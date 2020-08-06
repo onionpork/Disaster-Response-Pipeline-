@@ -81,15 +81,21 @@ def build_model():
 
 def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
-    f1_score, precision, recall = [], [],[]
+    #f1_score, precision, recall = [], [],[]
+    
+
+    
 
     for i in range(len(category_names)):
-        res = classification_report(Y_test.iloc[:,i], y_pred[:,i])
-        f1_score.append(float(res.split()[-2]))
-        recall.append(float(res.split()[-3]))
-        precision.append(float(res.split()[-4]))
-    accuracy = (y_pred == Y_test).mean()
-    print('accuracy: ', accuracy.mean())
+        print(category_names[i]) 
+        print(classification_report(Y_test[category_names[i]], y_pred[:, i]))
+#         res = classification_report(Y_test.iloc[:,i], y_pred[:,i])
+#         f1_score.append(float(res.split()[-2]))
+#         recall.append(float(res.split()[-3]))
+#         precision.append(float(res.split()[-4]))
+        
+#     accuracy = (y_pred == Y_test).mean()
+#     print('accuracy: ', accuracy.mean())
         
 
 def save_model(model, model_filepath):
