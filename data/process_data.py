@@ -28,10 +28,11 @@ def clean_data(df):
     row = categories.iloc[0]
     category_colnames = list(row.str.split('-').apply(lambda x: x[0]))
     categories.columns = category_colnames
+    categories.related.loc[categories.related == 'related-2'] = 'related-1'
     
     for column in categories:
         categories[column] = categories[column].str.split('-').apply(lambda x: x[1])
-        categories[column] =   categories[column].astype('int64')
+        categories[column] = categories[column].astype('int64')
         
     df = pd.concat([df.drop('categories', axis=1), categories], axis =1)
     df = df.drop_duplicates()
