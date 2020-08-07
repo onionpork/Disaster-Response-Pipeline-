@@ -1,5 +1,16 @@
 # Disaster Response Pipeline Project
 
+### Project Overview:
+In this project, data engineering methods was applied to analyze disaster data and to build a model for an API that classifies disaster messages.
+
+### Files in repository: 
+
+1. a data set which are real messages and corresponding categories: disaster_messages.csv and disaster_categories.csv
+2. a ETL pipeline python file: process_data.py and corresponding output processed database by raw dataset: DisasterResponse.db
+3. a ML pipeline to do classification: train_classifier.py and corresponding classification result: classifier.pkl
+4. a web app displaying visualization: run.py
+
+
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
